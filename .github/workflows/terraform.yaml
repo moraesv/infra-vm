@@ -38,11 +38,13 @@ jobs:
           terraform_version: 1.7.5
 
       - name: Inicializar Terraform (com backend.conf)
-        run: terraform -chdir=infra/terraform init \
-          -backend-config="endpoint=${{ secrets.MGC_ENDPOINT_S3 }}" \
-          -backend-config="access_key=${{ secrets.MGC_ACCESS_KEY }}" \
-          -backend-config="secret_key=${{ secrets.MGC_ACCESS_SECRET_KEY }}"
-
+        run: |
+          cd infra/terraform
+          terraform init \
+            -backend-config="endpoint=${{ secrets.MGC_ENDPOINT_S3 }}" \
+            -backend-config="access_key=${{ secrets.MGC_ACCESS_KEY }}" \
+            -backend-config="secret_key=${{ secrets.MGC_ACCESS_SECRET_KEY }}"
+            
       - name: Validar configuração
         run: terraform -chdir=infra/terraform validate
 
