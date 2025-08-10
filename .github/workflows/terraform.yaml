@@ -15,7 +15,7 @@ on:
         default: 'apply'
 
 jobs:
-  terraform:
+  terraform-plan:
     runs-on: ubuntu-latest
 
     env:
@@ -64,7 +64,8 @@ jobs:
           path: infra/terraform/tfplan
           retention-days: 1
 
-  apply:
+  terraform-apply:
+    needs: terraform-plan
     if: ${{ github.event.inputs.action == 'apply' }}
     runs-on: ubuntu-latest
 
