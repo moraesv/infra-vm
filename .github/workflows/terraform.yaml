@@ -49,8 +49,7 @@ jobs:
           terraform init \
             -backend-config="endpoint=${{ secrets.MGC_ENDPOINT_S3 }}" \
             -backend-config="access_key=${{ secrets.MGC_ACCESS_KEY }}" \
-            -backend-config="secret_key=${{ secrets.MGC_ACCESS_SECRET_KEY }}" \
-            -lockfile=readonly # Não altera o lock file
+            -backend-config="secret_key=${{ secrets.MGC_ACCESS_SECRET_KEY }}"
 
       - name: Validar configuração
         run: terraform -chdir=infra/terraform validate
