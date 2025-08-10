@@ -80,4 +80,6 @@ jobs:
           path: infra/terraform
 
       - name: Terraform Apply
-        run: terraform -chdir=infra/terraform apply -auto-approve tfplan
+        run: |
+          cd infra/terraform
+          terraform apply -auto-approve tfplan
