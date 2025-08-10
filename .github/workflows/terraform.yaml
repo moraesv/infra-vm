@@ -1,12 +1,12 @@
 name: Terraform - Magalu Cloud Infra
 
 on:
-  workflow_dispatch:
-    inputs:
-      action:
-        description: 'Ação do Terraform: plan ou apply'
-        required: true
-        default: 'plan'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   terraform:
@@ -49,23 +49,35 @@ jobs:
         run: terraform -chdir=infra/terraform validate
 
       - name: Terraform Plan
-        if: ${{ github.event.inputs.action == 'plan' }}
         run: terraform -chdir=infra/terraform plan -out=tfplan
 
       - name: Upload do tfplan (para uso no apply)
-        if: ${{ github.event.inputs.action == 'plan' }}
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: infra/terraform/tfplan
+          retention-days: 1
+
+  apply:
+    needs: terraform
+    runs-on: ubuntu-latest
+    environment:
+      name: manual-approval
+      url: https://github.com/${{ github.repository }}/actions
+    steps:
+      - name: Esperar aprovação manual
+        uses: hmarr/auto-approve-action@v2
+        with:
+          message: "Aguardando aprovação para aplicar mudanças no Terraform."
+
+      - name: Checkout código
+        uses: actions/checkout@v4
 
       - name: Download do tfplan (quando for apply)
-        if: ${{ github.event.inputs.action == 'apply' }}
         uses: actions/download-artifact@v4
         with:
           name: tfplan
           path: infra/terraform
 
       - name: Terraform Apply
-        if: ${{ github.event.inputs.action == 'apply' }}
         run: terraform -chdir=infra/terraform apply -auto-approve tfplan
