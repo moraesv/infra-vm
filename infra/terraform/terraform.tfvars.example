@@ -1,0 +1,4 @@
+api_key          = "SEU_API_KEY_AQUI"
+ssh_user         = "meu_ssh_user"
+ssh_pub_key_file = "ssh_pub_key_file"
+vpc_id           = "vpc_id"
