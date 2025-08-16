@@ -16,12 +16,12 @@ variable "api_secret_key" {
 
 variable "vm_name" {
   type    = string
-  default = "dev-vm"
+  default = "infra-vm"
 }
 
 variable "machine_type" {
   type    = string
-  default = "BV1-1-10"
+  default = "BV4-8-20"
 }
 
 variable "image_name" {
