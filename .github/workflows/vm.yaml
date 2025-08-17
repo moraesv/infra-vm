@@ -10,10 +10,10 @@ on:
 
 jobs:
   Infraestrutura:
-    uses: ./.github/workflows/terraform.yml
+    uses: ./.github/workflows/terraform.yaml
     secrets: inherit
 
   Provisionamento:
     needs: Infraestrutura
-    uses: ./.github/workflows/ansible.yml
+    uses: ./.github/workflows/ansible.yaml
     secrets: inherit
