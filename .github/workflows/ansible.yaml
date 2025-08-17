@@ -29,6 +29,11 @@ jobs:
       - name: Instalar Ansible
         run: pip install ansible
 
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
       - name: Obter IP da VM
         id: tf_output
         run: |
