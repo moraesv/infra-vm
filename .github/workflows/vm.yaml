@@ -1,0 +1,19 @@
+name: Magalu Cloud VM
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Infraestrutura:
+    uses: ./.github/workflows/terraform.yml
+    secrets: inherit
+
+  Provisionamento:
+    needs: Infraestrutura
+    uses: ./.github/workflows/ansible.yml
+    secrets: inherit

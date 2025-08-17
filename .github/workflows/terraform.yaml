@@ -1,9 +1,7 @@
 name: Terraform - Magalu Cloud Infra
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
   terraform:
@@ -38,7 +36,7 @@ jobs:
         run: |
           cd infra/terraform
           terraform init \
-            -backend-config="endpoint.s3=${{ secrets.MGC_ENDPOINT_S3 }}" \
+            -backend-config="endpoint=${{ secrets.MGC_ENDPOINT_S3 }}" \
             -backend-config="access_key=${{ secrets.MGC_ACCESS_KEY }}" \
             -backend-config="secret_key=${{ secrets.MGC_ACCESS_SECRET_KEY }}"
 

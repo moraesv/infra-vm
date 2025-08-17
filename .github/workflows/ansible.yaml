@@ -1,10 +1,7 @@
 name: Ansible - Provisionamento
 
 on:
-  workflow_run:
-    workflows: ["Terraform - Magalu Cloud Infra"]
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   ansible:
