@@ -1,0 +1,16 @@
+services:
+  homer:
+    image: b4bz/homer:latest
+    container_name: homer
+    networks:
+      - portfolio_net
+    volumes:
+      - ./config:/www/assets
+    labels:
+      - "traefik.http.routers.homer.rule=Host(`homer.viniciusmoraes.duckdns.org`)"
+      - "traefik.http.routers.homer.entrypoints=websecure"
+      - "traefik.http.routers.homer.tls.certresolver=myresolver"
+
+networks:
+  portfolio_net:
+    external: true

@@ -1,0 +1,9 @@
+- name: Instalar pacotes básicos
+  apt:
+    pkg:
+      - curl
+      - python3
+      - git
+      - unzip
+    update_cache: yes
+    state: present

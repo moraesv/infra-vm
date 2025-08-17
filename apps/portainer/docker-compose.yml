@@ -1,0 +1,22 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"
+    ports:
+      - "9000:9000"
+    networks:
+      - portfolio_net
+    labels:
+      - "traefik.http.routers.portainer.rule=Host(`portainer.viniciusmoraes.duckdns.org`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls.certresolver=duckdns"
+
+networks:
+  portfolio_net:
+    external: true
+
+volumes:
+  portainer_data:

@@ -1,0 +1,18 @@
+- name: Criar diretório do Traefik
+  file:
+    path: /opt/traefik
+    state: directory
+    mode: '0755'
+
+- name: Copiar pasta inteira do Traefik exceto letsencrypt
+  ansible.posix.synchronize:
+    src: ../../apps/traefik/
+    dest: /opt/traefik/
+    rsync_opts:
+      - "--exclude=letsencrypt"
+    mode: push
+
+- name: Subir containers do Traefik
+  shell: docker-compose up -d
+  args:
+    chdir: /opt/traefik

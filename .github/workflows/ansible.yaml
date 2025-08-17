@@ -1,0 +1,53 @@
+name: Ansible - Provisionamento
+
+on:
+  workflow_run:
+    workflows: ["Terraform - Magalu Cloud Infra"]
+    types:
+      - completed
+
+jobs:
+  ansible:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Adicionar chave SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Instalar Ansible
+        run: pip install ansible
+
+      - name: Obter IP da VM
+        id: tf_output
+        run: |
+          cd infra/terraform
+          terraform init -backend=false
+          terraform output -raw vm_ip > vm_ip.txt
+          echo "vm_ip=$(cat vm_ip.txt)" >> $GITHUB_OUTPUT
+
+      - name: Criar inventário Ansible
+        run: |
+          cd infra/ansible
+          touch hosts
+          echo "[portfolio]" > hosts
+          echo "${{ steps.tf_output.outputs.vm_ip }} ansible_user=${{ secrets.SSH_USER }} ansible_ssh_private_key_file=~/.ssh/id_rsa" >> hosts
+          cat hosts
+
+      - name: Executar Playbook
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+        run: |
+          cd infra/ansible
+          ansible-playbook -i hosts playbook.yml
