@@ -44,3 +44,5 @@ terraform.rc
 *key*
 
 apikey
+
+**/.env

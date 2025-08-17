@@ -53,3 +53,28 @@ resource "mgc_network_security_groups_rules" "allow_ingress_app" {
   remote_ip_prefix  = "0.0.0.0/0"
   security_group_id = mgc_network_security_groups.security.id
 }
+
+
+resource "mgc_network_security_groups_rules" "allow_ingress_http" {
+  depends_on        = [mgc_network_security_groups.security]
+  description       = "Ingress"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = 80
+  port_range_max    = 80
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = mgc_network_security_groups.security.id
+}
+
+resource "mgc_network_security_groups_rules" "allow_ingress_https" {
+  depends_on        = [mgc_network_security_groups.security]
+  description       = "Ingress"
+  direction         = "ingress"
+  ethertype         = "IPv4"
+  port_range_min    = 443
+  port_range_max    = 443
+  protocol          = "tcp"
+  remote_ip_prefix  = "0.0.0.0/0"
+  security_group_id = mgc_network_security_groups.security.id
+}
