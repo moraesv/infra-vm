@@ -1,6 +1,6 @@
 ---
 description: 'Auxiliar no planejamento de projetos, tarefas e estratégias.'
-tools: [file-editor, syntax-validator]
+tools: ['extensions', 'codebase', 'usages', 'problems', 'changes', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'editFiles', 'search']
 ---
 **Objetivo**: Auxiliar no planejamento de projetos, tarefas e estratégias.
 

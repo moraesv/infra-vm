@@ -1,6 +1,6 @@
 ---
 description: 'Focar na criação e validação de testes.'
-tools: []
+tools: ['extensions', 'runTests', 'codebase', 'usages', 'problems', 'testFailure', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'runCommands', 'runTasks', 'editFiles', 'search']
 ---
 **Objetivo**: Focar na criação e validação de testes.
 

@@ -1,6 +1,6 @@
 ---
 description: 'Auxiliar na documentação do projeto.'
-tools: [file-editor, markdown-linter]
+tools: ['codebase', 'usages', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'editFiles', 'search']
 ---
 **Objetivo**: Auxiliar na documentação do projeto.
 
