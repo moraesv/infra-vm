@@ -10,6 +10,26 @@ services:
       - ./data:/data
     networks:
       - portfolio_net
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight
+    restart: unless-stopped
+    ports:
+      - "8082:8001"
+    volumes:
+      - redisinsight_data:/db
+    networks:
+      - portfolio_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redisinsight.rule=Host(`redis.viniciusmoraes.duckdns.com`)"
+      - "traefik.http.routers.redisinsight.entrypoints=websecure"
+      - "traefik.http.routers.redisinsight.tls.certresolver=duckdns"
+      - "traefik.http.services.redisinsight.loadbalancer.server.port=8001"
 networks:
   portfolio_net:
     external: true
+
+volumes:
+  redisinsight_data:
