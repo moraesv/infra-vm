@@ -44,16 +44,16 @@ jobs:
       - name: Gerar arquivos .env para todos os serviços
         run: |
           # PostgreSQL
-          touch apps/postgres/.env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" > apps/postgres/.env
+          touch /opt/postgres/.env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" > /opt/postgres/.env
 
           # Redis (se precisar de senha)
-          touch apps/redis/.env
-          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" > apps/redis/.env
+          touch  /opt/redis/.env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >  /opt/redis/.env
 
           # Outros serviços (exemplo pgAdmin)
-          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" > apps/postgres/.env
-          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> apps/postgres/.env
+          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" > /opt/postgres/.env
+          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> /opt/postgres/.env
 
       - name: Criar inventário Ansible
         run: |
