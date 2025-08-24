@@ -11,33 +11,82 @@ Certifique-se de ter as seguintes ferramentas instaladas no seu ambiente:
 - [Ansible](https://www.ansible.com/)
 - [Terraform](https://www.terraform.io/)
 
-## Estrutura do Projeto
 
-- **apps/**: Contém os serviços configurados com Docker Compose.
-  - **homer/**: Configuração do Homer.
-  - **portainer/**: Configuração do Portainer.
-  - **traefik/**: Configuração do Traefik.
-- **infra/**: Contém os arquivos de configuração do Ansible e Terraform.
-  - **ansible/**: Playbooks e roles para automação.
-  - **terraform/**: Configuração de infraestrutura com Terraform.
+## Geração automática do arquivo inventory.ini
 
-## Configuração
+Para facilitar a configuração do Ansible, utilize o script de geração automática do arquivo `inventory.ini`:
 
-### 1. Configuração do Docker Compose
+1. Edite o arquivo `.env` em `infra/ansible/.env` com os dados do seu ambiente:
+  ```env
+  ANSIBLE_HOST=viniciusmoraes.duckdns.org
+  ANSIBLE_USER=ubuntu
+  ANSIBLE_KEY=../../infra-vm-key
+  ```
 
-Cada serviço possui seu próprio arquivo `docker-compose.yml`. Para iniciar os serviços, navegue até o diretório do serviço e execute:
+2. Execute o script para gerar o arquivo:
+  ```bash
+  infra/ansible/gen_inventory.sh
+  ```
 
-```bash
-docker-compose up -d
+O arquivo `inventory.ini` será criado automaticamente com base nas variáveis do `.env`.
+
+**Recomendação:** Não versionar o arquivo `inventory.ini` com dados reais. Mantenha apenas um exemplo (`inventory.ini.example`) no repositório.
+
+
+## Deploy Centralizado de Apps via Docker Compose
+
+### Estrutura
+
+Todos os aplicativos devem estar organizados em subpastas dentro de `apps/` (ex: `apps/traefik`, `apps/homer`, `apps/portainer`).
+
+### Configuração dos Apps e Exclusões
+
+Edite o arquivo `infra/ansible/vars/docker_apps.yml` para adicionar novos apps ou definir arquivos/pastas a serem excluídos durante o deploy:
+
+```yaml
+docker_apps:
+  - name: traefik
+    src: "../../apps/traefik/"
+    dest: "/opt/traefik/"
+    excludes:
+      - letsencrypt
+      - acme.json
+  - name: homer
+    src: "../../apps/homer/"
+    dest: "/opt/homer/"
+    excludes: []
+  - name: portainer
+    src: "../../apps/portainer/"
+    dest: "/opt/portainer/"
+    excludes: []
 ```
 
-### 2. Configuração do Ansible
+### Executando o Deploy Centralizado
 
-Edite o arquivo `inventory.ini` para incluir os hosts que deseja gerenciar. Em seguida, execute o playbook principal:
+Para realizar o deploy de todos os apps definidos:
 
 ```bash
-ansible-playbook -i inventory.ini playbook.yml
+ansible-playbook infra/ansible/playbook_deploy_apps.yml -i infra/ansible/inventory.ini
 ```
+
+### Checklist de Segurança
+
+- [ ] Todos os arquivos sensíveis estão excluídos do processo de cópia?
+- [ ] As variáveis sensíveis estão protegidas com Ansible Vault ou equivalente?
+- [ ] Os volumes persistentes não são sobrescritos pelo Ansible?
+- [ ] O acesso aos diretórios dos apps está restrito?
+- [ ] A documentação orienta sobre práticas seguras de deploy?
+
+### Exemplos de Adição de Novo App
+
+1. Crie a pasta do app em `apps/` e adicione o `docker-compose.yml`.
+2. Adicione o app e possíveis exclusões em `infra/ansible/vars/docker_apps.yml`.
+3. Execute o playbook para realizar o deploy.
+
+### Observações
+
+- Sempre revise as recomendações de segurança antes de cada deploy.
+- Atualize este guia conforme novos apps ou práticas forem adotados.
 
 ### 3. Configuração do Terraform
 

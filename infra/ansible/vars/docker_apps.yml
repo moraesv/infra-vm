@@ -1,0 +1,15 @@
+docker_apps:
+  - name: traefik
+    src: "../../apps/traefik/"
+    dest: "/opt/traefik/"
+    excludes:
+      - letsencrypt
+      - acme.json
+  - name: homer
+    src: "../../apps/homer/"
+    dest: "/opt/homer/"
+    excludes: []
+  - name: portainer
+    src: "../../apps/portainer/"
+    dest: "/opt/portainer/"
+    excludes: []

@@ -1,8 +1,18 @@
 # playbook.yml
 - hosts: portfolio
   become: true
+  vars_files:
+    - vars/docker_apps.yml
   roles:
     - common
     - docker
-    - traefik
-    - homer
+  tasks:
+    - name: Deploy dos apps via papel genérico
+      include_role:
+        name: docker_app
+      vars:
+        app_name: "{{ item.name }}"
+        app_src: "{{ item.src }}"
+        app_dest: "{{ item.dest }}"
+        app_excludes: "{{ item.excludes }}"
+      loop: "{{ docker_apps }}"
