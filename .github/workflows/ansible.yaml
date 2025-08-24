@@ -41,6 +41,18 @@ jobs:
           terraform output -raw vm_ip > vm_ip.txt
           echo "vm_ip=$(cat vm_ip.txt)" >> $GITHUB_OUTPUT
 
+      - name: Gerar arquivos .env para todos os serviços
+        run: |
+          # PostgreSQL
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" > apps/postgres/.env
+
+          # Redis (se precisar de senha)
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" > apps/redis/.env
+
+          # Outros serviços (exemplo pgAdmin)
+          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" > apps/postgres/.env
+          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> apps/postgres/.env
+
       - name: Criar inventário Ansible
         run: |
           cd infra/ansible
