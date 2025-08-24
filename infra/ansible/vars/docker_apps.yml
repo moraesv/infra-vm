@@ -13,3 +13,18 @@ docker_apps:
     src: "../../apps/portainer/"
     dest: "/opt/portainer/"
     excludes: []
+  - name: postgres
+    src: "../../apps/postgres/"
+    dest: "/opt/postgres/"
+    excludes:
+      - data
+      - dumps
+      - backups
+      - .env
+  - name: redis
+    src: "../../apps/redis/"
+    dest: "/opt/redis/"
+    excludes:
+      - data
+      - dumps
+      - backups

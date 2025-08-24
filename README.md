@@ -77,11 +77,28 @@ ansible-playbook infra/ansible/playbook_deploy_apps.yml -i infra/ansible/invento
 - [ ] O acesso aos diretórios dos apps está restrito?
 - [ ] A documentação orienta sobre práticas seguras de deploy?
 
+
 ### Exemplos de Adição de Novo App
 
 1. Crie a pasta do app em `apps/` e adicione o `docker-compose.yml`.
 2. Adicione o app e possíveis exclusões em `infra/ansible/vars/docker_apps.yml`.
 3. Execute o playbook para realizar o deploy.
+
+### Configuração de PostgreSQL e Redis
+
+**PostgreSQL:**
+- Edite o arquivo `apps/postgres/.env` para definir a senha do banco.
+- O volume `data` não é versionado e será criado na VM.
+- Recomenda-se proteger o arquivo `.env` e nunca versionar credenciais reais.
+
+**Redis:**
+- O volume `data` não é versionado e será criado na VM.
+- Para maior segurança, configure autenticação no Redis se necessário.
+
+**Recomendações de Segurança:**
+- Proteja arquivos de configuração sensíveis com Ansible Vault.
+- Exclua arquivos de backup, dumps e volumes do processo de cópia.
+- Restrinja permissões dos diretórios dos bancos e dos arquivos de configuração.
 
 ### Observações
 

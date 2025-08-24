@@ -15,25 +15,25 @@ Centralizar e automatizar o deploy de múltiplos aplicativos na VM utilizando Do
    - Desenvolver um papel chamado `docker_app` que recebe como variáveis o nome do app, caminho de origem, destino e lista de exclusões.
    - Ferramentas: Ansible.
    - Resultado esperado: Papel reutilizável para deploy de qualquer app via Docker Compose.
-   - **Status:** 🚫 Ainda não implementado (atualmente há papéis específicos para cada app).
+   - **Status:** ✅ Implementado.
 
 3. **Definir Variáveis de Apps e Exclusões**
    - Criar um arquivo de variáveis (ex: `vars/docker_apps.yml`) listando os apps, caminhos e exclusões.
    - Ferramentas: YAML, Ansible.
    - Resultado esperado: Configuração centralizada e parametrizável dos apps e exclusões.
-   - **Status:** 🚫 Ainda não implementado.
+   - **Status:** ✅ Implementado.
 
 4. **Implementar Task Ansible com Excludes Dinâmicos**
    - Configurar a task para usar `ansible.posix.synchronize` e aplicar os parâmetros de exclusão definidos nas variáveis.
    - Ferramentas: Ansible, rsync.
    - Resultado esperado: Cópia dos arquivos dos apps ignorando os itens sensíveis conforme parametrização.
-   - **Status:** 🚫 Parcialmente implementado (exclusão fixa em Traefik, não parametrizado).
+   - **Status:** ✅ Implementado.
 
 5. **Documentar o Processo**
    - Atualizar o `README.md` com instruções de uso, exemplos de configuração e como adicionar novos apps/exclusões.
    - Ferramentas: Markdown.
    - Resultado esperado: Documentação clara e acessível para o time.
-   - **Status:** 🚫 Ainda não implementado.
+   - **Status:** ✅ Implementado.
 
 
 ## Recomendações de Segurança
