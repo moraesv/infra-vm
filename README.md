@@ -2,6 +2,7 @@
 
 Este projeto utiliza **infraestrutura como código** para gerenciar e automatizar a configuração de serviços como **Homer**, **Portainer** e **Traefik**. As ferramentas principais utilizadas são **Ansible**, **Terraform** e **Docker Compose**.
 
+
 ## Pré-requisitos
 
 Certifique-se de ter as seguintes ferramentas instaladas no seu ambiente:
